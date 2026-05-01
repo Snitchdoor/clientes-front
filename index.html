@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Clientes</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+    h1 { color: #333; }
+    table { border-collapse: collapse; width: 100%; background: white; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+    th { background-color: #4CAF50; color: white; }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <h1>Lista de Clientes</h1>
+  <table id="tabla">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Ciudad</th>
+      </tr>
+    </thead>
+    <tbody id="cuerpo"></tbody>
+  </table>
+
+  <script>
+    fetch('http://backend-service:3000/clientes')
+      .then(res => res.json())
+      .then(data => {
+        const cuerpo = document.getElementById('cuerpo');
+        data.forEach(c => {
+          cuerpo.innerHTML += `
+            <tr>
+              <td>${c.id}</td>
+              <td>${c.nombre}</td>
+              <td>${c.apellidos}</td>
+              <td>${c.ciudad}</td>
+            </tr>`;
+        });
+      })
+      .catch(err => {
+        document.body.innerHTML += '<p style="color:red">Error al cargar clientes: ' + err + '</p>';
+      });
+  </script>
+</body>
+</html>
